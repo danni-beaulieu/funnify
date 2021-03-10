@@ -1,6 +1,8 @@
 package com.funnerimage.funnify.model;
 
 import com.funnerimage.funnify.operations.Mirror;
+import org.im4java.core.ConvertCmd;
+import org.im4java.core.IMOperation;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,8 +22,13 @@ public class Image {
         this.type = type;
     }
 
-    public void grayscale(){
-
+    public void grayscale() throws Exception {
+        IMOperation op = new IMOperation();
+        op.addImage(file.getPath());
+        op.colorspace("Gray");
+        op.addImage(file.getPath());
+        ConvertCmd convert = new ConvertCmd();
+        convert.run(op);
     }
 
     public void mirror(Mirror.Type type) {

@@ -12,13 +12,13 @@ public class ImageExecutor {
 
     public void queueOperations(Image image, List<ImageOperation> imageOperations) {
         for (ImageOperation operation : imageOperations) {
-
+            operations.add(operation);
         }
     }
 
-    public void executeOperations(Image image) {
-        for (ImageOperation order : operations) {
-            order.execute();
+    public void executeOperations(Image image) throws Exception {
+        for (ImageOperation operation : operations) {
+            operation.execute();
         }
         operations.clear();
     }

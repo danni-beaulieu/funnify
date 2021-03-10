@@ -73,7 +73,7 @@ public class FunnifyService {
         return imageOperations;
     }
 
-    void doOperations(Image image, List<ImageOperation> operations) {
+    void doOperations(Image image, List<ImageOperation> operations) throws Exception {
         ImageExecutor executor = new ImageExecutor();
         executor.queueOperations(image, operations);
         executor.executeOperations(image);

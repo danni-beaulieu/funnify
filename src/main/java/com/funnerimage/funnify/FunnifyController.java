@@ -49,54 +49,56 @@ public class FunnifyController {
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     @ResponseBody
     public ResponseEntity<?> doOperations(@RequestPart("image") MultipartFile file,
-                                          @RequestPart("operations") OperationsInput json) throws Exception {
+                                          @RequestPart("operations") OperationsInput json) {
 
-        File imageFile = convert(file);
-        String fileType = getFileType(imageFile);
+        File imageFile;
         Image.Type imageType = null;
-
-        if (fileType.equals(MediaType.IMAGE_JPEG_VALUE.toString())) {
-            imageType = Image.Type.JPEG;
-        } else if (fileType.equals(MediaType.IMAGE_PNG_VALUE.toString())) {
-            imageType = Image.Type.PNG;
-        } else {
+        try {
+            imageFile = convert(file);
+            String fileType = getFileType(imageFile);
+            if (fileType.equals(MediaType.IMAGE_JPEG_VALUE.toString())) {
+                imageType = Image.Type.JPEG;
+            } else if (fileType.equals(MediaType.IMAGE_PNG_VALUE.toString())) {
+                imageType = Image.Type.PNG;
+            } else {
+                return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                        .body("File type '" + fileType + "' not supported.");
+            }
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-                    .body("File type '" + fileType + "' not supported.");
+                    .body("File corrupt or not supported.");
         }
 
         Image image = new Image(imageFile, imageType);
+        List<ImageOperation> imageOperations;
         try {
-            funnifyService.doOperations(image,
-                    funnifyService.convertOperations(image, json.getOperations()));
+            imageOperations = funnifyService.convertOperations(image, json.getOperations());
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.OK).body(Files.readAllBytes(imageFile.toPath()));
+        try {
+            funnifyService.doOperations(image, imageOperations);
+            return ResponseEntity.status(HttpStatus.OK).body(Files.readAllBytes(imageFile.toPath()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
     }
 
     public File convert(MultipartFile multipartFile) throws Exception {
         File file = new File(multipartFile.getOriginalFilename());
         file.createNewFile();
-
         FileOutputStream fos = new FileOutputStream(file);
         fos.write(multipartFile.getBytes());
         fos.close();
         return file;
     }
 
-    public String getFileType(File file) {
-        String fileType = "Undetermined";
-        try {
-            //fileType = Files.probeContentType(file.toPath());
-            MimetypesFileTypeMap m = new MimetypesFileTypeMap(file.toPath().toString());
-            fileType = m.getContentType(file);
-        }
-        catch (IOException ioException) {
-            System.out.println(
-                    "ERROR: Unable to determine file type for "
-                            + " due to exception " + ioException);
-        }
+    public String getFileType(File file) throws Exception{
+        String fileType = "UNDETERMINED";
+        MimetypesFileTypeMap m = new MimetypesFileTypeMap(file.toPath().toString());
+        fileType = m.getContentType(file);
         return fileType;
     }
 }

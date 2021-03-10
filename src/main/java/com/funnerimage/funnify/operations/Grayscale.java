@@ -11,7 +11,7 @@ public class Grayscale implements ImageOperation {
         this.image = image;
     }
 
-    public void execute() {
+    public void execute() throws Exception {
         image.grayscale();
     }
 }
