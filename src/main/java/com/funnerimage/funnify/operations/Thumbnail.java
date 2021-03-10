@@ -11,7 +11,7 @@ public class Thumbnail implements ImageOperation {
         this.image = image;
     }
 
-    public void execute() {
+    public void execute() throws Exception {
         image.thumbnail();
     }
 }

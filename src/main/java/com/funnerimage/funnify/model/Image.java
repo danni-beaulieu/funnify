@@ -5,8 +5,6 @@ import org.im4java.core.ConvertCmd;
 import org.im4java.core.IMOperation;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Image {
 
@@ -31,19 +29,46 @@ public class Image {
         convert.run(op);
     }
 
-    public void mirror(Mirror.Type type) {
-
+    public void mirror(Mirror.Type type) throws Exception{
+        IMOperation op = new IMOperation();
+        op.addImage(file.getPath());
+        switch (type) {
+            case FLIP:
+                op.flip();
+                break;
+            case FLOP:
+                op.flop();
+                break;
+        }
+        op.addImage(file.getPath());
+        ConvertCmd convert = new ConvertCmd();
+        convert.run(op);
     }
 
-    public void thumbnail() {
-
+    public void thumbnail() throws Exception {
+//        IMOperation op = new IMOperation();
+//        op.addImage(file.getPath());
+//        op.thumbnail();
+//        op.addImage(file.getPath());
+//        ConvertCmd convert = new ConvertCmd();
+//        convert.run(op);
     }
 
-    public void resize(Integer value) {
-
+    public void resize(Integer value) throws Exception {
+//        IMOperation op = new IMOperation();
+//        op.addImage(file.getPath());
+//        op.resize();
+//        op.addImage(file.getPath());
+//        ConvertCmd convert = new ConvertCmd();
+//        convert.run(op);
     }
 
-    public void rotate(Integer value) {
-
+    public void rotate(Integer value) throws Exception {
+        IMOperation op = new IMOperation();
+        op.addImage(file.getPath());
+        op.rotate(value.doubleValue());
+        op.addImage(file.getPath());
+        ConvertCmd convert = new ConvertCmd();
+        convert.run(op);
     }
 }

@@ -17,7 +17,7 @@ public class Mirror implements ImageOperation {
         this.image = image;
     }
 
-    public void execute() {
+    public void execute() throws Exception {
         image.mirror(type);
     }
 }

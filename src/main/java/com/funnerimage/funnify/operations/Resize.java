@@ -13,7 +13,7 @@ public class Resize implements ImageOperation {
         this.value = value;
     }
 
-    public void execute() {
+    public void execute() throws Exception {
         image.resize(value);
     }
 }

@@ -17,7 +17,7 @@ public class Rotate implements ImageOperation {
         this.value = value;
     }
 
-    public void execute() {
+    public void execute() throws Exception {
         image.rotate(value);
     }
 }
