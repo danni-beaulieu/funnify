@@ -1,0 +1,28 @@
+{
+  "operations": [
+    {
+      "type": "grayscale"
+    },
+    {
+      "type": "flip"
+    },
+    {
+      "type": "flop"
+    },
+    {
+      "type": "thumbnail"
+    },
+    {
+      "type": "simplerotate",
+      "value": "left"
+    },
+    {
+      "type": "degreerotate",
+      "value": "30"
+    },
+    {
+      "type": "resize",
+      "value": "50"
+    }
+  ]
+}
