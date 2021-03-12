@@ -6,14 +6,16 @@ import com.funnerimage.funnify.model.ImageOperation;
 public class Resize implements ImageOperation {
 
     private Image image;
-    private Integer value;
+    private Integer width;
+    private Integer height;
 
-    public Resize(Image image, Integer value){
+    public Resize(Image image, Integer width, Integer height){
         this.image = image;
-        this.value = value;
+        this.width = width;
+        this.height = height;
     }
 
     public void execute() throws Exception {
-        image.resize(value);
+        image.resize(width, height);
     }
 }

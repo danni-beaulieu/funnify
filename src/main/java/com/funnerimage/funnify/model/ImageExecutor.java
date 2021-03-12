@@ -1,7 +1,5 @@
 package com.funnerimage.funnify.model;
 
-import com.funnerimage.funnify.FunnifyService;
-
 import java.util.ArrayList;
 import java.util.List;
 

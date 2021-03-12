@@ -45,22 +45,22 @@ public class Image {
         convert.run(op);
     }
 
-    public void thumbnail() throws Exception {
-//        IMOperation op = new IMOperation();
-//        op.addImage(file.getPath());
-//        op.thumbnail();
-//        op.addImage(file.getPath());
-//        ConvertCmd convert = new ConvertCmd();
-//        convert.run(op);
+    public void thumbnail(Integer width, Integer height) throws Exception {
+        IMOperation op = new IMOperation();
+        op.addImage(file.getPath());
+        op.thumbnail(width, height);
+        op.addImage(file.getPath());
+        ConvertCmd convert = new ConvertCmd();
+        convert.run(op);
     }
 
-    public void resize(Integer value) throws Exception {
-//        IMOperation op = new IMOperation();
-//        op.addImage(file.getPath());
-//        op.resize();
-//        op.addImage(file.getPath());
-//        ConvertCmd convert = new ConvertCmd();
-//        convert.run(op);
+    public void resize(Integer width, Integer height) throws Exception {
+        IMOperation op = new IMOperation();
+        op.addImage(file.getPath());
+        op.resize(width, height);
+        op.addImage(file.getPath());
+        ConvertCmd convert = new ConvertCmd();
+        convert.run(op);
     }
 
     public void rotate(Integer value) throws Exception {

@@ -10,9 +10,6 @@
       "type": "flop"
     },
     {
-      "type": "thumbnail"
-    },
-    {
       "type": "simplerotate",
       "value": "left"
     },
@@ -22,7 +19,11 @@
     },
     {
       "type": "resize",
-      "value": "50"
+      "value": "250x250"
+    },
+    {
+      "type": "thumbnail",
+      "value": "100x100"
     }
   ]
 }

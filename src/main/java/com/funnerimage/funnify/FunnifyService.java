@@ -31,7 +31,18 @@ public class FunnifyService {
                     imageOperations.add(new Mirror(image, Mirror.Type.FLOP));
                     break;
                 case THUMBNAIL:
-                    imageOperations.add(new Thumbnail(image));
+                    Integer thumbnailWidth;
+                    Integer thumbnailHeight;
+                    try {
+                        String[] size = operation.getValue().split("x", 2);
+                        thumbnailWidth = Integer.parseInt(size[0]);
+                        thumbnailHeight = Integer.parseInt(size[1]);
+                    } catch(NumberFormatException e) {
+                        throw new IllegalArgumentException("Values for thumbnail must be integers: NxN.");
+                    } catch(NullPointerException e) {
+                        throw new IllegalArgumentException("Null value for thumbnail not supported.");
+                    }
+                    imageOperations.add(new Thumbnail(image, thumbnailWidth, thumbnailHeight));
                     break;
                 case SIMPLEROTATE:
                     Integer simpleDegrees = 0;
@@ -56,15 +67,18 @@ public class FunnifyService {
                     imageOperations.add(new Rotate(image, detailDegrees));
                     break;
                 case RESIZE:
-                    Integer resizePercentage = 100;
+                    Integer resizeWidth;
+                    Integer resizeHeight;
                     try {
-                        resizePercentage = Integer.parseInt(operation.getValue());
+                        String[] size = operation.getValue().split("x", 2);
+                        resizeWidth = Integer.parseInt(size[0]);
+                        resizeHeight = Integer.parseInt(size[1]);
                     } catch(NumberFormatException e) {
-                        throw new IllegalArgumentException("Value for resize must be an integer.");
+                        throw new IllegalArgumentException("Values for resize must be integers: NxN.");
                     } catch(NullPointerException e) {
                         throw new IllegalArgumentException("Null value for resize not supported.");
                     }
-                    imageOperations.add(new Resize(image, resizePercentage));
+                    imageOperations.add(new Resize(image, resizeWidth, resizeHeight));
                     break;
                 default:
                     throw new IllegalArgumentException("Operation '" + operation.getType() + "' not supported.");
